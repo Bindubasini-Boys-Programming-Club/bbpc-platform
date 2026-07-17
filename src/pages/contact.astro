@@ -1,0 +1,56 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import Prose from "@/components/docs/Prose.astro";
+import Card from "@/components/ui/card/Card.astro";
+import Input from "@/components/ui/input/Input.astro";
+import Button from "@/components/ui/button/Button.astro";
+
+---
+
+<DocsLayout title="Contact" description="Reach the club team.">
+  <Prose>
+    <h2>Get in touch</h2>
+    <p>
+      Questions about joining, events, or projects? Send a message and we’ll route it
+      to the right team.
+    </p>
+  </Prose>
+
+  <div class="mt-6">
+    <Card class="p-6">
+      <form
+        class="space-y-4"
+        onsubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="name">Name</label>
+            <Input id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="email">Email</label>
+            <Input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium" for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            class="block w-full min-h-[120px] p-3 text-sm bg-background border border-border rounded-md focus:outline-none focus:ring-4 focus:ring-primary/10"
+            placeholder="Tell us what you need…"
+            required
+          ></textarea>
+        </div>
+
+        <div>
+          <Button type="submit" size="default">Send message</Button>
+        </div>
+      </form>
+    </Card>
+  </div>
+</DocsLayout>
+

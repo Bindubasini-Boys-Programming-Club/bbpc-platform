@@ -1,0 +1,105 @@
+---
+import { AstroSeo } from "@lexingtonthemes/seo";
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Foundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/button/Button.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { siteConfig } from "@/config/site";
+
+const canonical = `${siteConfig.url}${Astro.url.pathname === "/" ? "" : Astro.url.pathname}`;
+---
+
+<AstroSeo
+  title="Bearnie - Build your own component library"
+  description="A set of accessible components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code. Use this to build your own component library."
+  canonical={canonical}
+  openGraph={{
+    url: canonical,
+    title: "Bearnie - Build Your Own Component Library",
+    description:
+      "A set of accessible components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code. Use this to build your own component library.",
+    site_name: siteConfig.name,
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} Open Graph image`,
+        type: "image/jpeg",
+      },
+    ],
+  }}
+  twitter={{
+    cardType: "summary_large_image",
+    site: siteConfig.author.twitter,
+    handle: siteConfig.author.twitter,
+  }}
+/>
+<BaseLayout
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    description:
+      "A set of accessible components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code. Use this to build your own component library.",
+    url: siteConfig.url,
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+      logo: {
+        "@type": "ImageObject",
+        url: siteConfig.ogImage,
+      },
+    },
+    sameAs: [siteConfig.author.twitter],
+  }}
+>
+  <section>
+    <Wrapper
+      class="standard"
+      class="py-12 lg:h-[calc(100vh-11.5rem)] flex flex-col justify-center"
+    >
+      <!-- Hero Section -->
+      <div class="max-w-3xl text-center mx-auto text-balance">
+        <Logo class="size-12 lg:size-20 mx-auto" />
+        <Text
+          tag="h1"
+          variant="textXL"
+          class="font-medium tracking-tight mt-12"
+        >
+          {siteConfig.name} <br /> Programming Club
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground mt-4">
+          Build with confidence. Learn together, ship projects, and mentor new
+          members through events, workshops, and community challenges.
+        </Text>
+
+        <div class="flex items-center gap-2.5 mt-12 justify-center flex-wrap">
+          <Button href="/contact" size="default">Join the Club</Button>
+          <Button href="/events" variant="outline" size="default">View Events</Button>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="rounded-lg border bg-muted/30 p-4">
+            <Text tag="p" variant="textSM" class="font-medium">Weekly Meetups</Text>
+            <Text tag="p" variant="textXS" class="text-muted-foreground mt-2">Hands-on sessions & code walkthroughs.</Text>
+          </div>
+          <div class="rounded-lg border bg-muted/30 p-4">
+            <Text tag="p" variant="textSM" class="font-medium">Project Sprints</Text>
+            <Text tag="p" variant="textXS" class="text-muted-foreground mt-2">From idea to demo—together.</Text>
+          </div>
+          <div class="rounded-lg border bg-muted/30 p-4">
+            <Text tag="p" variant="textSM" class="font-medium">Mentorship</Text>
+            <Text tag="p" variant="textXS" class="text-muted-foreground mt-2">Pairing, reviews, and guidance.</Text>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

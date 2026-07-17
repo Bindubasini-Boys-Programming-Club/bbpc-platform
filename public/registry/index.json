@@ -1,0 +1,251 @@
+{
+  "name": "bearnie",
+  "version": "0.1.0",
+  "components": [
+    {
+      "name": "styles",
+      "description": "CSS variables and theme configuration for Bearnie components",
+      "category": "theme"
+    },
+    {
+      "name": "accordion",
+      "description": "A vertically stacked set of interactive headings that reveal content",
+      "category": "disclosure"
+    },
+    {
+      "name": "alert",
+      "description": "Displays important messages and feedback to users",
+      "category": "feedback"
+    },
+    {
+      "name": "alert-dialog",
+      "description": "A modal dialog for important confirmations",
+      "category": "disclosure"
+    },
+    {
+      "name": "aspect-ratio",
+      "description": "Displays content with a specified aspect ratio",
+      "category": "layout"
+    },
+    {
+      "name": "avatar",
+      "description": "An image element with a fallback for representing users",
+      "category": "display"
+    },
+    {
+      "name": "badge",
+      "description": "A small status indicator for elements",
+      "category": "display"
+    },
+    {
+      "name": "breadcrumb",
+      "description": "Navigation showing the current location within a hierarchy",
+      "category": "navigation"
+    },
+    {
+      "name": "button",
+      "description": "A clickable button component with multiple variants",
+      "category": "form"
+    },
+    {
+      "name": "button-group",
+      "description": "Groups related buttons together",
+      "category": "form"
+    },
+    {
+      "name": "card",
+      "description": "A container for grouping related content",
+      "category": "layout"
+    },
+    {
+      "name": "carousel",
+      "description": "A carousel component built with Keen Slider",
+      "category": "display"
+    },
+    {
+      "name": "checkbox",
+      "description": "A control for toggling between checked and unchecked states",
+      "category": "form"
+    },
+    {
+      "name": "collapsible",
+      "description": "A component that can expand and collapse content",
+      "category": "disclosure"
+    },
+    {
+      "name": "combobox",
+      "description": "A searchable dropdown for selecting one option",
+      "category": "form"
+    },
+    {
+      "name": "command",
+      "description": "A command palette for searching and selecting actions",
+      "category": "navigation"
+    },
+    {
+      "name": "context-menu",
+      "description": "A menu triggered by right-click",
+      "category": "navigation"
+    },
+    {
+      "name": "dialog",
+      "description": "A modal dialog that appears on top of the page",
+      "category": "disclosure"
+    },
+    {
+      "name": "dropdown-menu",
+      "description": "A menu that appears when triggered by a button",
+      "category": "navigation"
+    },
+    {
+      "name": "empty",
+      "description": "A placeholder for empty states",
+      "category": "feedback"
+    },
+    {
+      "name": "file-upload",
+      "description": "A file upload component with drag and drop",
+      "category": "form"
+    },
+    {
+      "name": "hover-card",
+      "description": "A card that appears on hover",
+      "category": "display"
+    },
+    {
+      "name": "input",
+      "description": "A text input field for forms",
+      "category": "form"
+    },
+    {
+      "name": "input-group",
+      "description": "Groups input with addons",
+      "category": "form"
+    },
+    {
+      "name": "input-otp",
+      "description": "A one-time password input",
+      "category": "form"
+    },
+    {
+      "name": "kbd",
+      "description": "Displays keyboard shortcuts",
+      "category": "display"
+    },
+    {
+      "name": "label",
+      "description": "An accessible label for form controls",
+      "category": "form"
+    },
+    {
+      "name": "menubar",
+      "description": "A horizontal menu bar",
+      "category": "navigation"
+    },
+    {
+      "name": "pagination",
+      "description": "Navigation for paginated content",
+      "category": "navigation"
+    },
+    {
+      "name": "popover",
+      "description": "Displays floating content when triggered",
+      "category": "disclosure"
+    },
+    {
+      "name": "progress",
+      "description": "Displays progress of a task",
+      "category": "feedback"
+    },
+    {
+      "name": "radio",
+      "description": "A set of checkable buttons where only one can be selected",
+      "category": "form"
+    },
+    {
+      "name": "scroll-area",
+      "description": "A scrollable area with custom scrollbars",
+      "category": "layout"
+    },
+    {
+      "name": "select",
+      "description": "A dropdown for selecting from a list of options",
+      "category": "form"
+    },
+    {
+      "name": "separator",
+      "description": "A visual divider between content",
+      "category": "layout"
+    },
+    {
+      "name": "sheet",
+      "description": "A slide-out panel from the edge of the screen",
+      "category": "disclosure"
+    },
+    {
+      "name": "sidebar",
+      "description": "A collapsible sidebar navigation",
+      "category": "navigation"
+    },
+    {
+      "name": "skeleton",
+      "description": "A placeholder for loading content",
+      "category": "feedback"
+    },
+    {
+      "name": "slider",
+      "description": "A range input slider",
+      "category": "form"
+    },
+    {
+      "name": "spinner",
+      "description": "A loading indicator",
+      "category": "feedback"
+    },
+    {
+      "name": "stepper",
+      "description": "A multi-step progress indicator",
+      "category": "navigation"
+    },
+    {
+      "name": "switch",
+      "description": "A toggle control for boolean values",
+      "category": "form"
+    },
+    {
+      "name": "table",
+      "description": "A responsive table for displaying tabular data",
+      "category": "display"
+    },
+    {
+      "name": "tabs",
+      "description": "Organizes content into tabbed sections",
+      "category": "navigation"
+    },
+    {
+      "name": "textarea",
+      "description": "A multi-line text input field",
+      "category": "form"
+    },
+    {
+      "name": "toast",
+      "description": "A notification that appears temporarily",
+      "category": "feedback"
+    },
+    {
+      "name": "toggle",
+      "description": "A two-state button",
+      "category": "form"
+    },
+    {
+      "name": "tooltip",
+      "description": "A popup that displays information on hover or focus",
+      "category": "display"
+    },
+    {
+      "name": "tree",
+      "description": "A hierarchical tree view",
+      "category": "navigation"
+    }
+  ]
+}

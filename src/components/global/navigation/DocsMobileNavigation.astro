@@ -1,0 +1,51 @@
+---
+import SidebarNav from "@/components/global/navigation/SidebarNav.astro";
+import type { NavigationSection } from "@/components/global/navigation/SidebarNav.astro";
+
+export interface Props {
+  navigation: NavigationSection[];
+  currentPath: string;
+}
+
+const { navigation = [], currentPath } = Astro.props;
+---
+
+<!-- Backdrop overlay -->
+<div
+  class="fixed inset-0 z-40 bg-overlay/10 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+  id="docs-mobile-backdrop"
+>
+</div>
+<!-- Mobile sidebar -->
+<aside
+  class="fixed inset-y-0 left-0 z-50 w-72 bg-muted border-r transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+  id="docs-mobile-sidebar"
+>
+  <div class="flex items-center justify-between h-14 px-4 border-b">
+    <a href="/" class="font-semibold">bearnie</a>
+    <button
+      type="button"
+      class="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+      id="docs-mobile-menu-close"
+      aria-label="Close menu"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="h-[calc(100vh-3.5rem)] overflow-y-auto">
+    <SidebarNav navigation={navigation} currentPath={currentPath} />
+  </div>
+</aside>

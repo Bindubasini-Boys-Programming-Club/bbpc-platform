@@ -1,0 +1,229 @@
+---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Foundations
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import DocsSearch from "@/components/docs/DocsSearch.astro";
+import ThemeToggle from "@/components/fundations/elements/ThemeToggle.astro";
+import LogoContextMenu from "@/components/global/LogoContextMenu.astro";
+// Icons
+import HugeIcon from "@/components/fundations/icons/HugeIcon.astro";
+import { Github01Icon, Menu01Icon } from "@/lib/hugeicons";
+import SignInDialog from "@/components/auth/SignInDialog.astro";
+import AuthNavUser from "@/components/global/navigation/AuthNavUser.astro";
+import { siteConfig } from "@/config/site";
+
+export interface Props {
+  variant?: "default" | "docs";
+}
+const { variant = "default" } = Astro.props;
+const navLinks = [
+  { title: "Home", href: "/" },
+  { title: "About", href: "/about" },
+  { title: "Projects", href: "/projects" },
+  { title: "Skills", href: "/skills" },
+  { title: "AI Assistant", href: "/ai" },
+  { title: "Community", href: "/community" },
+  { title: "Contact", href: "/contact" },
+];
+const githubUrl = siteConfig.links.github;
+const githubRepoSlug = new URL(githubUrl).pathname.slice(1);
+---
+
+{
+  variant === "docs" ? (
+    <header class="sticky top-0 z-50 w-full bg-muted">
+      <Wrapper variant="standard">
+        <div class="flex py-4 items-center justify-between ">
+          <LogoContextMenu>
+            <a href="/" class="font-semibold flex items-center gap-2">
+              <Logo class="size-4" />
+              Bbpc
+            </a>
+          </LogoContextMenu>
+          <div class="hidden md:flex items-center gap-4">
+            <nav class="flex items-center gap-4 text-sm font-medium">
+              {navLinks.map((Link01Icon) => (
+                <a
+                  href={Link01Icon.href}
+                  class="text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+                  {...(Link01Icon.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {Link01Icon.title}
+                </a>
+              ))}
+            </nav>
+            <div class="flex items-center border-l border-border pl-4 gap-1">
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-1.5 h-7 px-2 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                aria-label="GitHub"
+              >
+                <HugeIcon icon={Github01Icon} class="size-3.5" />
+                <span id="github-stars-docs" class="tabular-nums" />
+              </a>
+              <DocsSearch />
+              <ThemeToggle size="xs" />
+            </div>
+          </div>
+          <div class="flex items-center gap-1 md:hidden">
+            <DocsSearch />
+            <a
+              href="https://github.com/Bindubasini-Boys-Programming-Club"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center size-5 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="GitHub"
+            >
+              <HugeIcon icon={Github01Icon} class="size-4" />
+            </a>
+            <ThemeToggle size="xs" />
+            <button
+              type="button"
+              class="inline-flex items-center justify-center size-7 text-muted-foreground"
+              id="docs-mobile-Menu01Icon-toggle"
+              aria-label="Toggle Menu01Icon"
+            >
+              <HugeIcon icon={Menu01Icon} size="md" />
+            </button>
+          </div>
+        </div>
+      </Wrapper>
+    </header>
+  ) : (
+    <header class="sticky top-0 z-50 w-full bg-background">
+      <Wrapper variant="standard">
+        <div class="mx-auto flex py-4 items-center gap-6 justify-between">
+          <LogoContextMenu>
+            <a href="/" class="font-semibold flex items-center gap-2">
+              Bbpc
+            </a>
+          </LogoContextMenu>
+          <div class="flex items-center w-full">
+            <nav class="flex items-center justify-center flex-1 gap-6 text-sm">
+              {navLinks.map((Link01Icon) => (
+                <a
+              href={Link01Icon.href}
+                  class="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium tracking-tight"
+                  {...(Link01Icon.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {Link01Icon.title}
+                </a>
+              ))}
+            </nav>
+            <div class="flex items-center gap-4 ml-auto">
+              <div id="bbpc-auth-nav"> 
+                <SignInDialog>
+                  <a
+                    href="#"
+                    class="text-muted-foreground hover:text-foreground transition-colors text-xs font-medium"
+                    aria-label="Sign In"
+                    data-auth-fallback-signin
+                  >
+                    <span class="text-[0.93rem]">Sign In</span>
+                  </a>
+                </SignInDialog>
+                <div id="bbpc-auth-user" class="hidden">
+                  <AuthNavUser user={null} />
+                </div>
+              </div>
+              <ThemeToggle size="xs" />
+            </div>
+          </div>
+        </div>
+      </Wrapper>
+    </header>
+  )
+}
+
+<script define:vars={{ githubRepoSlug }}>
+  // Fetch GitHub stars
+  async function fetchGitHubStars() {
+    try {
+      const response = await fetch(
+        `https://api.github.com/repos/${githubRepoSlug}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const stars = data.stargazers_count;
+        const formatted =
+          stars >= 1000 ? `${(stars / 1000).toFixed(1)}k` : stars.toString();
+        const docsStars = document.getElementById("github-stars-docs");
+        const defaultStars = document.getElementById("github-stars-default");
+        if (docsStars) docsStars.textContent = formatted;
+        if (defaultStars) defaultStars.textContent = formatted;
+      }
+    } catch (error) {
+      console.error("Failed to fetch GitHub stars:", error);
+    }
+  }
+  fetchGitHubStars();
+
+  async function refreshAuthNav() {
+    const root = document.getElementById('bbpc-auth-nav');
+    const userWrap = document.getElementById('bbpc-auth-user');
+    const fallback = root?.querySelector('[data-auth-fallback-signin]');
+
+    if (!root || !userWrap) return;
+
+    try {
+      const res = await fetch('/api/auth/me');
+      const data = await res.json();
+      const user = data?.user || null;
+
+      if (user && userWrap) {
+        userWrap.classList.remove('hidden');
+        // Render avatar menu by setting innerHTML from the existing component.
+        // We keep it simple: reload the component content.
+        userWrap.innerHTML = '';
+        // Use a lightweight DOM construction.
+        const avatar = document.createElement('div');
+        avatar.className = 'relative';
+        avatar.textContent = '';
+
+        // Fallback: show initials without image upload.
+        // This keeps layout stable without changing premium UI styling.
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className =
+          'inline-flex items-center gap-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-expanded', 'false');
+
+        const initials = user?.fullName
+          ? user.fullName
+              .split(/\s+/)
+              .filter(Boolean)
+              .slice(0, 2)
+              .map((p) => p[0]?.toUpperCase())
+              .join('')
+          : 'BB';
+
+        const span = document.createElement('span');
+        span.className = 'size-7 inline-flex items-center justify-center rounded-full bg-accent text-foreground text-xs font-medium';
+        span.textContent = initials;
+
+        btn.appendChild(span);
+        avatar.appendChild(btn);
+        userWrap.appendChild(avatar);
+      } else {
+        userWrap.classList.add('hidden');
+      }
+
+      if (fallback) fallback.classList.toggle('hidden', Boolean(user));
+    } catch {
+      if (fallback) fallback.classList.remove('hidden');
+      userWrap.classList.add('hidden');
+    }
+  }
+
+  document.addEventListener('bbpc:auth-changed', () => refreshAuthNav());
+  refreshAuthNav();
+</script>

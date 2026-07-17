@@ -1,0 +1,57 @@
+{
+  "name": "sheet",
+  "description": "A slide-out panel from the edge of the screen",
+  "category": "disclosure",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [
+    "focus-trap"
+  ],
+  "files": [
+    {
+      "name": "Sheet.astro",
+      "path": "sheet/Sheet.astro",
+      "content": "---\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"div\"> {}\n\nconst { ...props } = Astro.props;\n---\n\n<div data-sheet {...props}>\n  <slot />\n</div>\n\n<script>\n  import { trapFocus, generateId } from '@/utils/focus-trap';\n\n  function initSheets() {\n    document.querySelectorAll('[data-sheet]').forEach((sheet) => {\n      // Skip if already initialized\n      if (sheet.hasAttribute('data-initialized')) return;\n      sheet.setAttribute('data-initialized', 'true');\n      \n      const trigger = sheet.querySelector('[data-sheet-trigger]') as HTMLElement;\n      const overlay = sheet.querySelector('[data-sheet-overlay]');\n      const content = sheet.querySelector('[data-sheet-content]') as HTMLElement;\n      const title = sheet.querySelector('[data-sheet-title]') as HTMLElement;\n      const description = sheet.querySelector('[data-sheet-description]') as HTMLElement;\n      \n      if (!trigger || !overlay || !content) return;\n\n      // Generate IDs for ARIA relationships\n      if (title && !title.id) {\n        title.id = generateId('sheet-title');\n      }\n      if (description && !description.id) {\n        description.id = generateId('sheet-desc');\n      }\n\n      // Set ARIA attributes on content\n      if (title?.id) content.setAttribute('aria-labelledby', title.id);\n      if (description?.id) content.setAttribute('aria-describedby', description.id);\n      \n      // Move overlay and content to body to escape stacking context\n      document.body.appendChild(overlay);\n      document.body.appendChild(content);\n\n      let cleanupFocusTrap: (() => void) | null = null;\n      \n      // Close function\n      function closeSheet() {\n        (overlay as HTMLElement).hidden = true;\n        (content as HTMLElement).hidden = true;\n        document.body.style.overflow = '';\n        // Clean up focus trap\n        cleanupFocusTrap?.();\n        cleanupFocusTrap = null;\n        // Return focus to trigger\n        trigger?.focus();\n      }\n      \n      // Open sheet\n      trigger.addEventListener('click', () => {\n        (overlay as HTMLElement).hidden = false;\n        (content as HTMLElement).hidden = false;\n        document.body.style.overflow = 'hidden';\n        // Set up focus trap\n        cleanupFocusTrap = trapFocus(content);\n      });\n      \n      // Close on overlay click\n      overlay.addEventListener('click', (e) => {\n        if (e.target === overlay) closeSheet();\n      });\n      \n      // Close buttons\n      content.querySelectorAll('[data-sheet-close]').forEach(btn => {\n        btn.addEventListener('click', closeSheet);\n      });\n      \n      // Close on escape\n      document.addEventListener('keydown', (e) => {\n        if (e.key === 'Escape' && !(overlay as HTMLElement).hidden) {\n          closeSheet();\n        }\n      });\n    });\n  }\n  \n  initSheets();\n  document.addEventListener('astro:page-load', initSheets);\n</script>\n"
+    },
+    {
+      "name": "SheetClose.astro",
+      "path": "sheet/SheetClose.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"button\"> {}\n\nconst { class: className, ...props } = Astro.props;\n---\n\n<button\n  type=\"button\"\n  data-sheet-close\n  class={cn(className)}\n  {...props}\n>\n  <slot />\n</button>\n"
+    },
+    {
+      "name": "SheetContent.astro",
+      "path": "sheet/SheetContent.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { Cancel01Icon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<\"div\"> {\n  side?: \"top\" | \"right\" | \"bottom\" | \"left\";\n  showCloseButton?: boolean;\n}\n\nconst {\n  side = \"right\",\n  showCloseButton = true,\n  class: className,\n  ...props\n} = Astro.props;\n\nconst sideStyles = {\n  top: \"inset-x-0 top-0 border-b\",\n  right: \"inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm\",\n  bottom: \"inset-x-0 bottom-0 border-t\",\n  left: \"inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm\",\n};\n\nconst classes = cn(\n  \"fixed z-50 gap-4 bg-background p-6 shadow-lg\",\n  sideStyles[side],\n  className\n);\n---\n\n<div\n  data-sheet-content\n  data-side={side}\n  role=\"dialog\"\n  aria-modal=\"true\"\n  class={classes}\n  hidden\n  {...props}\n>\n  <slot />\n  {showCloseButton && (\n    <button\n      type=\"button\"\n      data-sheet-close\n      class=\"absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none\"\n    >\n      <HugeIcon icon={Cancel01Icon} class=\"size-4\" />\n      <span class=\"sr-only\">Close</span>\n    </button>\n  )}\n</div>\n"
+    },
+    {
+      "name": "SheetDescription.astro",
+      "path": "sheet/SheetDescription.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"p\"> {\n  id?: string;\n}\n\nconst { class: className, id, ...props } = Astro.props;\n\nconst classes = cn(\n  \"text-sm text-muted-foreground\",\n  className\n);\n---\n\n<p class={classes} data-sheet-description id={id} {...props}>\n  <slot />\n</p>\n"
+    },
+    {
+      "name": "SheetFooter.astro",
+      "path": "sheet/SheetFooter.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"div\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2\",\n  className\n);\n---\n\n<div class={classes} {...props}>\n  <slot />\n</div>\n"
+    },
+    {
+      "name": "SheetHeader.astro",
+      "path": "sheet/SheetHeader.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"div\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"flex flex-col space-y-2 text-center sm:text-left\",\n  className\n);\n---\n\n<div class={classes} {...props}>\n  <slot />\n</div>\n"
+    },
+    {
+      "name": "SheetOverlay.astro",
+      "path": "sheet/SheetOverlay.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"div\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"fixed inset-0 z-50 bg-overlay/10 backdrop-blur-sm transition-opacity\",\n  className,\n);\n---\n\n<div class={classes} data-sheet-overlay hidden {...props}></div>\n"
+    },
+    {
+      "name": "SheetTitle.astro",
+      "path": "sheet/SheetTitle.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"h2\"> {\n  id?: string;\n}\n\nconst { class: className, id, ...props } = Astro.props;\n\nconst classes = cn(\n  \"text-lg font-semibold text-foreground\",\n  className\n);\n---\n\n<h2 class={classes} data-sheet-title id={id} {...props}>\n  <slot />\n</h2>\n"
+    },
+    {
+      "name": "SheetTrigger.astro",
+      "path": "sheet/SheetTrigger.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"span\"> {}\n\nconst { class: className, ...props } = Astro.props;\n---\n\n<span\n  data-sheet-trigger\n  class={cn(\"inline-block cursor-pointer\", className)}\n  role=\"button\"\n  tabindex=\"0\"\n  {...props}\n>\n  <slot />\n</span>\n\n<script>\n  function initSheetTriggers() {\n    document.querySelectorAll('[data-sheet-trigger]').forEach((trigger) => {\n      if (trigger.hasAttribute('data-trigger-initialized')) return;\n      trigger.setAttribute('data-trigger-initialized', 'true');\n\n      trigger.addEventListener('keydown', (e) => {\n        const event = e as KeyboardEvent;\n        if (event.key === 'Enter' || event.key === ' ') {\n          event.preventDefault();\n          trigger.dispatchEvent(new MouseEvent('click', { bubbles: true }));\n        }\n      });\n    });\n  }\n\n  initSheetTriggers();\n  document.addEventListener('astro:page-load', initSheetTriggers);\n</script>\n"
+    }
+  ]
+}

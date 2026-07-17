@@ -1,0 +1,28 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import Prose from "@/components/docs/Prose.astro";
+import Carousel from "@/components/ui/carousel/Carousel.astro";
+
+---
+
+<DocsLayout title="Gallery" description="Highlights from BBPC meetups and workshops.">
+  <Prose>
+    <h2>Meetup highlights</h2>
+    <p>
+      Relive recent sessions—screenshots, group photos, and project demos.
+    </p>
+  </Prose>
+
+  <div class="mt-6">
+    <Carousel
+      class="w-full"
+      items={[
+        { image: '/images/avatars/mike.png', alt: 'Team demo' },
+        { image: '/images/avatars/steve.png', alt: 'Workshop moment' },
+        { image: '/images/avatars/fred.png', alt: 'Group photo' },
+        { image: '/images/avatars/rauch.png', alt: 'Project review' }
+      ]}
+    />
+  </div>
+</DocsLayout>
+

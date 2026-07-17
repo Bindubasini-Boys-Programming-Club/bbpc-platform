@@ -1,0 +1,50 @@
+---
+export interface NavigationItem {
+  title: string;
+  href: string;
+  external?: boolean;
+}
+export type NavigationIcon = "sparkles" | "component";
+export interface NavigationSection {
+  title: string;
+  icon: NavigationIcon;
+  items: NavigationItem[];
+}
+export interface Props {
+  navigation: NavigationSection[];
+  currentPath: string;
+}
+const { navigation = [], currentPath } = Astro.props;
+---
+
+<nav class="space-y-8 py-8 px-6">
+  {
+    navigation.map((section) => (
+      <div>
+        <h4 class="font-medium text-[0.70rem] text-muted-foreground">
+          {section.title}
+        </h4>
+        <ul class="space-y-0.5 mt-2">
+          {section.items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  "block text-xs py-1.5 px-2.5 rounded-md transition-colors w-fit",
+                  currentPath === item.href
+                    ? "bg-primary/5 text-primary font-medium"
+                    : "text-foreground hover:text-foreground hover:bg-muted",
+                ]}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</nav>

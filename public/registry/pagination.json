@@ -1,0 +1,45 @@
+{
+  "name": "pagination",
+  "description": "Navigation for paginated content",
+  "category": "navigation",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "Pagination.astro",
+      "path": "pagination/Pagination.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"nav\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"mx-auto flex w-full justify-center\",\n  className\n);\n---\n\n<nav\n  role=\"navigation\"\n  aria-label=\"pagination\"\n  class={classes}\n  {...props}\n>\n  <slot />\n</nav>\n"
+    },
+    {
+      "name": "PaginationContent.astro",
+      "path": "pagination/PaginationContent.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"ul\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"flex flex-row items-center gap-1\",\n  className\n);\n---\n\n<ul class={classes} {...props}>\n  <slot />\n</ul>\n"
+    },
+    {
+      "name": "PaginationEllipsis.astro",
+      "path": "pagination/PaginationEllipsis.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { MoreHorizontalIcon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<\"span\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  \"flex size-9 items-center justify-center\",\n  className\n);\n---\n\n<span aria-hidden=\"true\" class={classes} {...props}>\n  <HugeIcon icon={MoreHorizontalIcon} class=\"size-4\" />\n  <span class=\"sr-only\">More pages</span>\n</span>\n"
+    },
+    {
+      "name": "PaginationItem.astro",
+      "path": "pagination/PaginationItem.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"li\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\"\", className);\n---\n\n<li class={classes} {...props}>\n  <slot />\n</li>\n"
+    },
+    {
+      "name": "PaginationLink.astro",
+      "path": "pagination/PaginationLink.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\n\nexport interface Props extends HTMLAttributes<\"a\"> {\n  href?: string;\n  isActive?: boolean;\n  size?: \"default\" | \"sm\" | \"lg\" | \"icon\";\n}\n\nconst {\n  href = \"#\",\n  isActive = false,\n  size = \"icon\",\n  class: className,\n  ...props\n} = Astro.props;\n\nconst sizeStyles = {\n  default: \"h-9 px-4 py-2\",\n  sm: \"h-8 px-3 text-xs\",\n  lg: \"h-10 px-8\",\n  icon: \"size-9\",\n};\n\nconst classes = cn(\n  \"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium\",\n  \"transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\n  \"disabled:pointer-events-none disabled:opacity-50\",\n  isActive\n    ? \"border border-input bg-background hover:bg-accent hover:text-accent-foreground\"\n    : \"hover:bg-accent hover:text-accent-foreground\",\n  sizeStyles[size],\n  className\n);\n---\n\n<a\n  href={href}\n  aria-current={isActive ? \"page\" : undefined}\n  class={classes}\n  {...props}\n>\n  <slot />\n</a>\n"
+    },
+    {
+      "name": "PaginationNext.astro",
+      "path": "pagination/PaginationNext.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { ArrowRight01Icon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<\"a\"> {\n  href?: string;\n}\n\nconst {\n  href = \"#\",\n  class: className,\n  ...props\n} = Astro.props;\n\nconst classes = cn(\n  \"inline-flex items-center justify-center gap-1 pl-4 pr-2.5 h-9 rounded-md text-sm font-medium\",\n  \"transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\n  \"hover:bg-accent hover:text-accent-foreground\",\n  className\n);\n---\n\n<a href={href} aria-label=\"Go to next page\" class={classes} {...props}>\n  <span><slot>Next</slot></span>\n  <HugeIcon icon={ArrowRight01Icon} class=\"size-4\" />\n</a>\n"
+    },
+    {
+      "name": "PaginationPrevious.astro",
+      "path": "pagination/PaginationPrevious.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { ArrowLeft01Icon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<\"a\"> {\n  href?: string;\n}\n\nconst {\n  href = \"#\",\n  class: className,\n  ...props\n} = Astro.props;\n\nconst classes = cn(\n  \"inline-flex items-center justify-center gap-1 pl-2.5 pr-4 h-9 rounded-md text-sm font-medium\",\n  \"transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\n  \"hover:bg-accent hover:text-accent-foreground\",\n  className\n);\n---\n\n<a href={href} aria-label=\"Go to previous page\" class={classes} {...props}>\n  <HugeIcon icon={ArrowLeft01Icon} class=\"size-4\" />\n  <span><slot>Previous</slot></span>\n</a>\n"
+    }
+  ]
+}

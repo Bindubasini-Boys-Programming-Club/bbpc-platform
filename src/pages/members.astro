@@ -1,0 +1,42 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import Prose from "@/components/docs/Prose.astro";
+import Avatar from "@/components/ui/avatar/Avatar.astro";
+
+---
+
+<DocsLayout title="Members" description="Meet the BBPC community.">
+  <Prose>
+    <h2>Member directory</h2>
+    <p>
+      Find mentors, collaborators, and learners by working group.
+    </p>
+
+    <h3>Working groups</h3>
+    <ul>
+      <li>Web • JavaScript, Astro, UI engineering</li>
+      <li>Data • SQL, analytics, visualization</li>
+      <li>AI • prompting, evaluation, ML fundamentals</li>
+      <li>Mobile • cross-platform apps & tooling</li>
+    </ul>
+
+    <h3>Featured members</h3>
+    <div class="mt-4 space-y-3">
+      <div class="flex items-center gap-3">
+        <Avatar src="/images/avatars/mike.png" alt="Mike" fallback="M" size="sm" />
+        <div>
+          <p class="font-medium">Mike</p>
+          <p class="text-muted-foreground text-sm">Mentor • Web</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <Avatar src="/images/avatars/rauch.png" alt="Rauch" fallback="R" size="sm" />
+        <div>
+          <p class="font-medium">Rauch</p>
+          <p class="text-muted-foreground text-sm">Reviewer • Data</p>
+        </div>
+      </div>
+    </div>
+  </Prose>
+</DocsLayout>
+

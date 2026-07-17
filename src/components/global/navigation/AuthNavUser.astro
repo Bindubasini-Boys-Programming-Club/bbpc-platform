@@ -1,0 +1,95 @@
+---
+import Avatar from "@/components/ui/avatar/Avatar.astro";
+import Button from "@/components/ui/button/Button.astro";
+
+export interface Props {
+  user: any;
+}
+
+const { user } = Astro.props;
+const initials = user?.fullName
+  ? user.fullName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((p: string) => p[0]?.toUpperCase())
+      .join("")
+  : "BB";
+---
+
+{user ? (
+  <div class="relative" data-auth-user-root>
+    <button
+      type="button"
+      class="inline-flex items-center gap-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      aria-haspopup="menu"
+      aria-expanded="false"
+      data-auth-user-trigger
+    >
+      <Avatar class="size-7">
+        {user.avatarUrl ? (
+          <img src={user.avatarUrl} alt="User avatar" />
+        ) : (
+          <span>{initials}</span>
+        )}
+      </Avatar>
+    </button>
+
+    <div
+      class="hidden absolute right-0 mt-2 w-56 bg-muted/80 backdrop-blur border border-border rounded-lg p-2 z-50 shadow-lg"
+      role="menu"
+      data-auth-user-menu
+    >
+      <a class="block px-3 py-2 rounded-md text-sm hover:bg-accent" href="#">My Profile</a>
+      <a class="block px-3 py-2 rounded-md text-sm hover:bg-accent" href="#">Dashboard</a>
+      <a class="block px-3 py-2 rounded-md text-sm hover:bg-accent" href="#">My Posts</a>
+      <a class="block px-3 py-2 rounded-md text-sm hover:bg-accent" href="#">Notifications</a>
+      <a class="block px-3 py-2 rounded-md text-sm hover:bg-accent" href="/docs">Settings</a>
+      <button
+        type="button"
+        class="w-full text-left mt-1 block px-3 py-2 rounded-md text-sm hover:bg-accent"
+        data-auth-logout-btn
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+) : (
+  <span />
+)}
+
+<script is:inline>
+  (function () {
+    const root = document.querySelector('[data-auth-user-root]');
+    if (!root) return;
+
+    const trigger = root.querySelector('[data-auth-user-trigger]');
+    const menu = root.querySelector('[data-auth-user-menu]');
+    const logoutBtn = root.querySelector('[data-auth-logout-btn]');
+
+    function setOpen(open) {
+      if (!menu) return;
+      menu.classList.toggle('hidden', !open);
+      trigger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    trigger?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isHidden = menu?.classList.contains('hidden');
+      setOpen(Boolean(isHidden));
+    });
+
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!(t instanceof Node)) return;
+      if (!root.contains(t)) setOpen(false);
+    });
+
+    logoutBtn?.addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.dispatchEvent(new CustomEvent('bbpc:auth-changed'));
+      setOpen(false);
+    });
+  })();
+</script>
+

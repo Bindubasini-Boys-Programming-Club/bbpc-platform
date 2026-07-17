@@ -1,0 +1,50 @@
+{
+  "name": "breadcrumb",
+  "description": "Navigation showing the current location within a hierarchy",
+  "category": "navigation",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "Breadcrumb.astro",
+      "path": "breadcrumb/Breadcrumb.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'nav'> {}\n\nconst { class: className, ...props } = Astro.props;\n---\n\n<nav aria-label=\"breadcrumb\" class={className} {...props}>\n  <slot />\n</nav>\n"
+    },
+    {
+      "name": "BreadcrumbDropdownItem.astro",
+      "path": "breadcrumb/BreadcrumbDropdownItem.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'a'> {\n  href: string;\n}\n\nconst { href, class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  'flex w-full items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors',\n  'hover:bg-accent hover:text-accent-foreground',\n  'focus:bg-accent focus:text-accent-foreground',\n  className\n);\n---\n\n<a href={href} class={classes} role=\"menuitem\" {...props}>\n  <slot />\n</a>\n"
+    },
+    {
+      "name": "BreadcrumbEllipsis.astro",
+      "path": "breadcrumb/BreadcrumbEllipsis.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { MoreHorizontalIcon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<'div'> {}\n\nconst { class: className, ...props } = Astro.props;\n---\n\n<div class={cn('relative inline-flex', className)} data-breadcrumb-dropdown {...props}>\n  <button\n    type=\"button\"\n    class=\"flex size-9 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground transition-colors\"\n    data-breadcrumb-dropdown-trigger\n    aria-expanded=\"false\"\n    aria-haspopup=\"true\"\n    aria-label=\"Show more breadcrumb items\"\n  >\n    <HugeIcon icon={MoreHorizontalIcon} class=\"size-4\" />\n    <span class=\"sr-only\">More</span>\n  </button>\n  <div\n    class=\"absolute left-1/2 -translate-x-1/2 bottom-0 z-50 min-w-[8rem] overflow-hidden rounded-lg border bg-popover p-1 text-popover-foreground shadow-md\"\n    data-breadcrumb-dropdown-content\n    role=\"menu\"\n    hidden\n  >\n    <slot />\n  </div>\n</div>\n\n<script>\n  function initBreadcrumbDropdowns() {\n    document.querySelectorAll('[data-breadcrumb-dropdown]').forEach((dropdown) => {\n      if (dropdown.hasAttribute('data-initialized')) return;\n      dropdown.setAttribute('data-initialized', 'true');\n\n      const trigger = dropdown.querySelector('[data-breadcrumb-dropdown-trigger]');\n      const content = dropdown.querySelector('[data-breadcrumb-dropdown-content]') as HTMLElement;\n\n      if (!trigger || !content) return;\n\n      const toggleDropdown = () => {\n        const isOpen = content.hidden === false;\n        content.hidden = isOpen;\n        trigger.setAttribute('aria-expanded', String(!isOpen));\n      };\n\n      trigger.addEventListener('click', (e) => {\n        e.stopPropagation();\n        toggleDropdown();\n      });\n\n      // Close on click outside\n      document.addEventListener('click', (e) => {\n        if (!dropdown.contains(e.target as Node) && !content.hidden) {\n          content.hidden = true;\n          trigger.setAttribute('aria-expanded', 'false');\n        }\n      });\n\n      // Close on Escape\n      document.addEventListener('keydown', (e) => {\n        if (e.key === 'Escape' && !content.hidden) {\n          content.hidden = true;\n          trigger.setAttribute('aria-expanded', 'false');\n        }\n      });\n\n      // Handle item clicks\n      content.querySelectorAll('a').forEach((item) => {\n        item.addEventListener('click', () => {\n          content.hidden = true;\n          trigger.setAttribute('aria-expanded', 'false');\n        });\n      });\n    });\n  }\n\n  initBreadcrumbDropdowns();\n  document.addEventListener('astro:page-load', initBreadcrumbDropdowns);\n</script>\n"
+    },
+    {
+      "name": "BreadcrumbItem.astro",
+      "path": "breadcrumb/BreadcrumbItem.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'li'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('inline-flex items-center gap-1.5', className);\n---\n\n<li class={classes} {...props}>\n  <slot />\n</li>\n"
+    },
+    {
+      "name": "BreadcrumbLink.astro",
+      "path": "breadcrumb/BreadcrumbLink.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'a'> {\n  href: string;\n}\n\nconst {\n  href,\n  class: className,\n  ...props\n} = Astro.props;\n\nconst classes = cn('transition-colors hover:text-foreground', className);\n---\n\n<a href={href} class={classes} {...props}>\n  <slot />\n</a>\n"
+    },
+    {
+      "name": "BreadcrumbList.astro",
+      "path": "breadcrumb/BreadcrumbList.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'ol'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  'flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5',\n  className\n);\n---\n\n<ol class={classes} {...props}>\n  <slot />\n</ol>\n"
+    },
+    {
+      "name": "BreadcrumbPage.astro",
+      "path": "breadcrumb/BreadcrumbPage.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'span'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('font-normal text-foreground', className);\n---\n\n<span role=\"link\" aria-disabled=\"true\" aria-current=\"page\" class={classes} {...props}>\n  <slot />\n</span>\n"
+    },
+    {
+      "name": "BreadcrumbSeparator.astro",
+      "path": "breadcrumb/BreadcrumbSeparator.astro",
+      "content": "---\nimport { cn } from \"@/utils/cn\";\nimport type { HTMLAttributes } from \"astro/types\";\nimport HugeIcon from \"@/components/fundations/icons/HugeIcon.astro\";\nimport { ArrowRight01Icon } from \"@/lib/hugeicons\";\n\nexport interface Props extends HTMLAttributes<\"li\"> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\"[&>svg]:size-3.5\", className);\n---\n\n<li role=\"presentation\" aria-hidden=\"true\" class={classes} {...props}>\n  <slot>\n    <HugeIcon icon={ArrowRight01Icon} />\n  </slot>\n</li>\n"
+    }
+  ]
+}

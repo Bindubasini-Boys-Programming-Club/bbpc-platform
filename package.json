@@ -1,0 +1,48 @@
+{
+  "name": "@bearnie/docs",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate-registry": "npx tsx scripts/generate-registry.ts",
+    "cli:dev": "cd packages/cli && npm run dev",
+    "cli:build": "cd packages/cli && npm run build",
+    "cli:link": "cd packages/cli && npm link",
+    "cli:test": "BEARNIE_REGISTRY_URL=http://localhost:4321/registry bearnie"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@hugeicons/core-free-icons": "^4.1.1",
+    "@lexingtonthemes/seo": "^0.2.0",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.19",
+    "argon2": "^0.44.0",
+    "astro": "^6.1.9",
+    "clsx": "^2.1.1",
+    "jszip": "^3.10.1",
+    "keen-slider": "^6.8.6",
+    "reading-time": "^1.5.0",
+    "shiki": "^4.0.2",
+    "sqlite3": "^6.0.1",
+    "tailwind-merge": "^3.5.0",
+    "tailwind-scrollbar-hide": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "@tailwindcss/vite": "^4.2.4",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.6.0",
+    "fs-extra": "^11.3.4",
+    "prettier": "^3.8.3",
+    "tailwindcss": "^4.2.4",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

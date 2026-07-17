@@ -1,0 +1,584 @@
+---
+import Dialog from "@/components/ui/dialog/Dialog.astro";
+import DialogTrigger from "@/components/ui/dialog/DialogTrigger.astro";
+import DialogContent from "@/components/ui/dialog/DialogContent.astro";
+import DialogHeader from "@/components/ui/dialog/DialogHeader.astro";
+import DialogDescription from "@/components/ui/dialog/DialogDescription.astro";
+import DialogTitle from "@/components/ui/dialog/DialogTitle.astro";
+import DialogFooter from "@/components/ui/dialog/DialogFooter.astro";
+import DialogOverlay from "@/components/ui/dialog/DialogOverlay.astro";
+import Button from "@/components/ui/button/Button.astro";
+import Input from "@/components/ui/input/Input.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Prose from "@/components/docs/Prose.astro";
+import HugeIcon from "@/components/fundations/icons/HugeIcon.astro";
+import { Call02Icon } from "@/lib/hugeicons";
+
+export interface Props {
+  signInHref?: string;
+}
+
+const {} = Astro.props;
+---
+
+<Dialog>
+  <DialogOverlay />
+
+  <DialogTrigger aria-label="Sign in">
+    <span>Sign In</span>
+  </DialogTrigger>
+
+  <DialogContent class="overflow-hidden max-w-2xl sm:max-w-3xl" data-auth-dialog-content>
+    <DialogHeader>
+      <DialogTitle id="bbpc-auth-title">Sign in to BBPC</DialogTitle>
+      <DialogDescription>
+        Access member resources, RSVP to events, and manage your profile.
+      </DialogDescription>
+    </DialogHeader>
+
+    <div class="mt-4 space-y-4" data-auth-root>
+      <div class="flex items-center justify-between gap-3">
+        <nav class="flex items-center gap-2" aria-label="Authentication tabs">
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
+            data-auth-tab="signin"
+            aria-selected="true"
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            data-auth-tab="signup"
+            aria-selected="false"
+          >
+            Sign Up
+          </button>
+        </nav>
+      </div>
+
+      {/* Sign in */}
+      <section data-auth-panel="signin" class="space-y-4">
+        <form
+          class="space-y-4"
+          method="post"
+          onsubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="bbpc-email">Email</label>
+            <Input
+              id="bbpc-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-3">
+              <label class="text-sm font-medium" for="bbpc-password">Password</label>
+              <button
+                type="button"
+                class="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
+                data-auth-link="forgot"
+              >
+                Forgot Password
+              </button>
+            </div>
+
+            <div class="relative">
+              <Input
+                id="bbpc-password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                aria-label="Show password"
+                data-auth-password-toggle
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-4"
+                >
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 text-sm text-muted-foreground">
+            <input type="checkbox" name="remember" class="accent-primary" />
+            Remember me
+          </label>
+
+          <div class="pt-2">
+            <Button type="submit" size="default" class="w-full" data-auth-submit>
+              <span class="data-[loading]:hidden">Sign In</span>
+              <span class="hidden" data-auth-loading aria-live="polite">Signing you in…</span>
+            </Button>
+          </div>
+
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <span class="w-full border-t border-border" />
+            </div>
+            <div class="relative flex justify-center text-xs uppercase">
+              <span class="bg-background px-3 text-muted-foreground">Or continue with</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="default"
+            class="w-full"
+            data-auth-phone
+          >
+            <span class="inline-flex items-center gap-2">
+              <HugeIcon icon={Call02Icon} class="size-4" />
+              Continue with Phone
+            </span>
+          </Button>
+
+          <DialogFooter>
+            <Text tag="p" variant="textSM" class="text-muted-foreground">
+              Don’t have an account?
+              <button
+                type="button"
+                class="text-foreground hover:underline underline-offset-4"
+                data-auth-link="signup"
+              >
+                Sign Up
+              </button>
+            </Text>
+          </DialogFooter>
+        </form>
+      </section>
+
+      {/* Sign up */}
+      <section data-auth-panel="signup" class="hidden space-y-4">
+        <form
+          class="space-y-4"
+          method="post"
+          onsubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="space-y-2">
+              <label class="text-sm font-medium" for="bbpc-fullname">Full name</label>
+              <Input id="bbpc-fullname" name="fullname" type="text" placeholder="Your name" required />
+            </div>
+            <div class="space-y-2">
+              <label class="text-sm font-medium" for="bbpc-signup-email">Email</label>
+              <Input id="bbpc-signup-email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-3">
+              <label class="text-sm font-medium" for="bbpc-signup-password">Password</label>
+              <button
+                type="button"
+                class="text-xs text-muted-foreground hover:text-foreground"
+                data-auth-signup-password-toggle
+              >
+                <span class="sr-only">Toggle password visibility</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="relative">
+              <Input
+                id="bbpc-signup-password"
+                name="password"
+                type="password"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 text-sm text-muted-foreground">
+            <input type="checkbox" name="agree" class="accent-primary" required />
+            I agree to the club guidelines
+          </label>
+
+          <div class="pt-2">
+            <Button type="submit" size="default" class="w-full" data-auth-submit-signup>
+              Create Account
+            </Button>
+          </div>
+
+          <DialogFooter>
+            <Text tag="p" variant="textSM" class="text-muted-foreground">
+              Already have an account?
+              <button
+                type="button"
+                class="text-foreground hover:underline underline-offset-4"
+                data-auth-link="signin"
+              >
+                Sign In
+              </button>
+            </Text>
+          </DialogFooter>
+        </form>
+      </section>
+
+      {/* Forgot password */}
+      <section data-auth-panel="forgot" class="hidden space-y-4">
+        <form
+          class="space-y-4"
+          method="post"
+          onsubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="bbpc-forgot-email">Email</label>
+            <Input
+              id="bbpc-forgot-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div class="pt-2">
+            <Button type="submit" size="default" class="w-full">
+              Send reset link
+            </Button>
+          </div>
+
+          <DialogFooter>
+            <Text tag="p" variant="textSM" class="text-muted-foreground">
+              Back to
+              <button
+                type="button"
+                class="text-foreground hover:underline underline-offset-4"
+                data-auth-link="signin"
+              >
+                Sign In
+              </button>
+            </Text>
+          </DialogFooter>
+        </form>
+      </section>
+
+      {/* Phone verification */}
+      <section data-auth-panel="phone" class="hidden space-y-4">
+        <form
+          class="space-y-4"
+          method="post"
+          onsubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="bbpc-phone">Phone number</label>
+            <Input
+              id="bbpc-phone"
+              name="phone"
+              type="tel"
+              placeholder="+1 555 0123"
+              required
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium" for="bbpc-otp">Verification code</label>
+            <Input
+              id="bbpc-otp"
+              name="otp"
+              type="text"
+              placeholder="123456"
+              inputmode="numeric"
+              required
+            />
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-2">
+            <Button type="button" variant="outline" size="default" class="w-full" data-auth-resend>
+              Resend code
+            </Button>
+            <Button type="submit" size="default" class="w-full">
+              Verify & Continue
+            </Button>
+          </div>
+
+          <DialogFooter>
+            <Text tag="p" variant="textSM" class="text-muted-foreground">
+              Prefer email?
+              <button
+                type="button"
+                class="text-foreground hover:underline underline-offset-4"
+                data-auth-link="signin"
+              >
+                Sign In
+              </button>
+            </Text>
+          </DialogFooter>
+        </form>
+      </section>
+    </div>
+
+    <Prose>
+      <p class="mt-4 text-xs text-muted-foreground" data-auth-inline-hint>
+        Secure BBPC authentication is enabled.
+      </p>
+      <p class="mt-2 text-xs text-destructive hidden" data-auth-error></p>
+      <p class="mt-2 text-xs text-muted-foreground hidden" data-auth-success></p>
+    </Prose>
+
+    <script is:inline>
+      (function () {
+        const body = document.body;
+
+        function setBlurActive(active) {
+          body.classList.toggle('bbpc-auth-blur-active', active);
+        }
+
+        // Blur the entire page when the auth dialog opens/closes.
+        // We rely on the dialog system toggling `hidden` on the content element.
+        function wireBlur() {
+          const content = root?.querySelector('[data-auth-dialog-content]') as HTMLElement | null;
+          if (!content) return;
+
+          const observer = new MutationObserver(() => {
+            const isHidden = content.hidden;
+            setBlurActive(!isHidden);
+            document.documentElement.classList.toggle('bbpc-auth-interaction-disabled', !isHidden);
+          });
+
+          observer.observe(content, {
+            attributes: true,
+            attributeFilter: ['hidden', 'class'],
+          });
+
+          // Initial state
+          const isHidden = content.hidden;
+          setBlurActive(!isHidden);
+          document.documentElement.classList.toggle('bbpc-auth-interaction-disabled', !isHidden);
+
+          document.addEventListener('astro:after-swap', () => observer.disconnect());
+        }
+
+
+        const root = document.querySelector('[data-auth-root]');
+        if (!root) return;
+
+    const tabs = root.querySelectorAll('[data-auth-tab]');
+        const panels = root.querySelectorAll('[data-auth-panel]');
+        const loadingEl = root.querySelector('[data-auth-loading]');
+        const submitBtn = root.querySelector('[data-auth-submit]');
+        const submitSignupBtn = root.querySelector('[data-auth-submit-signup]');
+
+        const errorEl = root.querySelector('[data-auth-error]');
+        const successEl = root.querySelector('[data-auth-success]');
+
+
+        function setMessage(kind, msg) {
+          if (!errorEl || !successEl) return;
+          if (kind === 'error') {
+            successEl.classList.add('hidden');
+            errorEl.textContent = msg;
+            errorEl.classList.remove('hidden');
+          } else if (kind === 'success') {
+            errorEl.classList.add('hidden');
+            successEl.textContent = msg;
+            successEl.classList.remove('hidden');
+          } else {
+            errorEl.classList.add('hidden');
+            successEl.classList.add('hidden');
+          }
+        }
+
+        function setPanel(name) {
+          panels.forEach((p) => {
+            const n = p.getAttribute('data-auth-panel');
+            p.classList.toggle('hidden', n !== name);
+          });
+
+          tabs.forEach((t) => {
+            const tabName = t.getAttribute('data-auth-tab');
+            t.setAttribute('aria-selected', tabName === name ? 'true' : 'false');
+            t.classList.toggle('text-muted-foreground', tabName !== name);
+            t.classList.toggle('text-foreground', tabName === name);
+          });
+
+          const title = document.getElementById('bbpc-auth-title');
+          if (title) {
+            title.textContent =
+              name === 'signup'
+                ? 'Create your BBPC account'
+                : name === 'forgot'
+                  ? 'Reset your password'
+                  : name === 'phone'
+                    ? 'Verify with phone'
+                    : 'Sign in to BBPC';
+          }
+
+          setMessage('none');
+        }
+
+        function wireLink(name, value) {
+          const links = root.querySelectorAll(`[data-auth-link="${value}"]`);
+          links.forEach((l) => {
+            l.addEventListener('click', () => {
+              if (name === 'signup') setPanel('signup');
+              else if (name === 'forgot') setPanel('forgot');
+              else if (name === 'phone') setPanel('phone');
+              else setPanel('signin');
+            });
+          });
+        }
+
+        wireLink('signup', 'signup');
+        wireLink('signin', 'signin');
+        wireLink('forgot', 'forgot');
+
+        const phoneBtn = root.querySelector('[data-auth-phone]');
+        phoneBtn?.addEventListener('click', () => setPanel('phone'));
+
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const name = tab.getAttribute('data-auth-tab');
+            setPanel(name);
+          });
+        });
+
+        // Password visibility toggles
+        const pwToggle = root.querySelector('[data-auth-password-toggle]');
+        const pwInput = document.getElementById('bbpc-password');
+        pwToggle?.addEventListener('click', () => {
+          if (!pwInput) return;
+          const isPw = pwInput.getAttribute('type') === 'password';
+          pwInput.setAttribute('type', isPw ? 'text' : 'password');
+        });
+
+        const pwSignupToggle = root.querySelector('[data-auth-signup-password-toggle]');
+        const pwSignupInput = document.getElementById('bbpc-signup-password');
+        pwSignupToggle?.addEventListener('click', () => {
+          if (!pwSignupInput) return;
+          const isPw = pwSignupInput.getAttribute('type') === 'password';
+          pwSignupInput.setAttribute('type', isPw ? 'text' : 'password');
+        });
+
+        function setLoading(btn, isLoading) {
+          if (!btn) return;
+          if (loadingEl) loadingEl.classList.toggle('hidden', !isLoading);
+          btn.disabled = isLoading;
+          btn.style.transition = 'opacity 200ms ease';
+          btn.style.opacity = isLoading ? '0.8' : '1';
+        }
+
+        async function postForm(endpoint, formEl, opts) {
+          const fd = new FormData(formEl);
+          if (opts && opts.rememberMe !== undefined) {
+            fd.set('rememberMe', opts.rememberMe ? 'true' : 'false');
+          }
+
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            body: fd,
+          });
+
+          let data = null;
+          try {
+            data = await res.json();
+          } catch {
+            data = null;
+          }
+
+          if (!res.ok || !data?.ok) {
+            const msg = data?.error || 'Request failed';
+            throw new Error(msg);
+          }
+
+          return data;
+        }
+
+        function closeDialog() {
+          // Prefer the dialog component to close itself
+          const dialog = document.querySelector('dialog');
+          if (dialog && typeof dialog.close === 'function') dialog.close();
+
+          // Fallback: click the first trigger if present
+          const openTrigger = document.querySelector('[aria-label="Sign in"]');
+          if (openTrigger && openTrigger instanceof HTMLElement) {
+            // no-op; keep modal closing animation controlled by component
+          }
+
+          // Notify navbar state refresh
+          window.dispatchEvent(new CustomEvent('bbpc:auth-changed'));
+        }
+
+        async function handleSignIn(e) {
+          e.preventDefault();
+          setMessage('none');
+          setLoading(submitBtn, true);
+
+          const form = e.currentTarget;
+          const rememberInput = form.querySelector('input[name="remember"]');
+          const rememberMe = Boolean(rememberInput && rememberInput.checked);
+
+          try {
+            await postForm('/api/auth/login', form, { rememberMe });
+            setMessage('success', 'Signed in successfully.');
+            closeDialog();
+          } catch (err) {
+            setMessage('error', err?.message || 'Sign in failed');
+          } finally {
+            setLoading(submitBtn, false);
+          }
+        }
+
+        async function handleSignUp(e) {
+          e.preventDefault();
+          setMessage('none');
+
+          const form = e.currentTarget;
+          const btn = form.querySelector('button[type="submit"]');
+          setLoading(btn, true);
+
+          try {
+            await postForm('/api/auth/register', form, {});
+            setMessage('success', 'Account created. You can sign in now.');
+            setPanel('signin');
+          } catch (err) {
+            setMessage('error', err?.message || 'Sign up failed');
+          } finally {
+            setLoading(btn, false);
+          }
+        }
+
+        const formSignin = root.querySelector('[data-auth-panel="signin"] form');
+        formSignin?.addEventListener('submit', handleSignIn);
+
+        const formSignup = root.querySelector('[data-auth-panel="signup"] form');
+        formSignup?.addEventListener('submit', handleSignUp);
+      })();
+    </script>
+
+  </DialogContent>
+</Dialog>
+
+

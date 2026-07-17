@@ -1,0 +1,40 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import Prose from "@/components/docs/Prose.astro";
+import Card from "@/components/ui/card/Card.astro";
+import Button from "@/components/ui/button/Button.astro";
+
+---
+
+<DocsLayout title="Projects" description="Current club projects and sprint boards.">
+  <Prose>
+    <h2>Featured projects</h2>
+    <p>
+      Each sprint ends with a demo. Projects are built by teams with a rotating
+      lead and mentor support.
+    </p>
+  </Prose>
+
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+    <Card class="p-5">
+      <Prose>
+        <h3>Beginner Web Tools</h3>
+        <p>Build a portfolio template + workshop workflow using modern UI patterns.</p>
+      </Prose>
+      <div class="mt-4">
+        <Button href="/members" size="default">Join this team</Button>
+      </div>
+    </Card>
+
+    <Card class="p-5">
+      <Prose>
+        <h3>DSA Practice Tracker</h3>
+        <p>Track problems, explain solutions, and measure progress for weekly review.</p>
+      </Prose>
+      <div class="mt-4">
+        <Button href="/events" variant="outline" size="default">See meetup</Button>
+      </div>
+    </Card>
+  </div>
+</DocsLayout>
+

@@ -1,0 +1,58 @@
+---
+import Button from "@/components/ui/button/Button.astro";
+
+export interface Props {
+  size?: "xs" | "sm" | "default" | "lg";
+}
+
+const { size = "default" } = Astro.props;
+---
+
+<Button
+  variant="ghost"
+  size={size}
+  iconOnly
+  data-theme-toggle
+  aria-label="Toggle theme"
+>
+  <svg
+    class="size-7"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+    <path d="M12 3l0 18"></path>
+    <path d="M12 9l4.65 -4.65"></path>
+    <path d="M12 14.3l7.37 -7.37"></path>
+    <path d="M12 19.6l8.85 -8.85"></path>
+  </svg>
+</Button>
+
+<script is:inline>
+  // Initialize theme on page load (runs before hydration to prevent flash)
+  (function () {
+    const stored = localStorage.getItem("theme") || "light";
+    document.documentElement.classList.toggle("dark", stored === "dark");
+  })();
+</script>
+
+<script>
+  const init = () => {
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        const newTheme = isDark ? "light" : "dark";
+        localStorage.setItem("theme", newTheme);
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
+      });
+    });
+  };
+
+  init();
+</script>

@@ -1,0 +1,117 @@
+---
+export interface Props {
+  contentId?: string;
+}
+const { contentId = "docs-content" } = Astro.props;
+---
+
+<aside
+  class="hidden xl:flex flex-col shrink-0 lg:w-62 px-4 pt-8 pb-8 sticky top-0 self-start h-[calc(100vh-3.5rem)]"
+>
+  <!-- TOC - scrollable -->
+  <div class="flex-1 min-h-0 overflow-y-auto scrollbar-hide pr-1 space-y-3">
+    <p class="font-medium text-sm text-foreground">On this page</p>
+    <nav class="text-sm relative" id="docs-toc" data-content-id={contentId}>
+      <!-- TOC will be populated by JavaScript -->
+    </nav>
+  </div>
+
+  <!-- Banner - fixed at bottom -->
+  <div class="shrink-0 pt-6">
+    <div class="bg-muted/50 rounded-lg border p-4">
+      <h3 class="text-sm font-semibold tracking-tight text-foreground">
+        Premium Astro V6 & Tailwind CSS themes
+      </h3>
+      <p class="mt-2 text-xs text-muted-foreground">
+        3-Year Anniversary — 50% OFF. Full access to all themes . Use code LEX50
+        for just $99.
+      </p>
+      <button
+        type="button"
+        onclick="window.open('http://lexingtonthemes.com/', '_blank', 'noopener,noreferrer')"
+        class="mt-4 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
+      >
+        Get Access
+      </button>
+    </div>
+  </div>
+</aside>
+
+<script>
+  function generateTOC() {
+    const toc = document.getElementById("docs-toc");
+    if (!toc) return;
+
+    const contentId = toc.getAttribute("data-content-id") || "docs-content";
+    const content = document.getElementById(contentId);
+    if (!content) return;
+
+    const headings = content.querySelectorAll("h2, h3, h4");
+    if (headings.length === 0) {
+      toc.innerHTML =
+        '<p class="text-muted-foreground text-sm">No sections</p>';
+      return;
+    }
+
+    // Create the list with left border
+    const tocList = document.createElement("ul");
+    tocList.className = "border-l border-border space-y-0.1";
+
+    headings.forEach((heading, index) => {
+      // Add ID if not present
+      if (!heading.id) {
+        heading.id =
+          heading.textContent
+            ?.toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^\w-]/g, "") || `section-${index}`;
+      }
+
+      const li = document.createElement("li");
+      li.className = "relative";
+
+      const isH3 = heading.tagName === "H3";
+      li.innerHTML = `
+        <a
+          href="#${heading.id}"
+          class="block py-1 pl-4 ${isH3 ? "pl-6" : ""} text-xs text-muted-foreground hover:text-foreground transition-colors relative"
+        >
+          <span class="absolute left-0 top-0 bottom-0 w-0.5 bg-primary hidden" aria-hidden="true"></span>
+          ${heading.textContent}
+        </a>
+      `;
+      tocList.appendChild(li);
+    });
+
+    toc.appendChild(tocList);
+
+    // Scroll spy with indicator
+    const tocLinks = tocList.querySelectorAll("a");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            tocLinks.forEach((link) => {
+              const indicator = link.querySelector("span");
+              if (link.getAttribute("href") === `#${id}`) {
+                link.classList.add("text-primary", "font-medium");
+                link.classList.remove("text-muted-foreground");
+                indicator?.classList.remove("hidden");
+              } else {
+                link.classList.remove("text-primary", "font-medium");
+                link.classList.add("text-muted-foreground");
+                indicator?.classList.add("hidden");
+              }
+            });
+          }
+        });
+      },
+      { rootMargin: "-80px 0px -80% 0px" },
+    );
+
+    headings.forEach((heading) => observer.observe(heading));
+  }
+
+  generateTOC();
+</script>

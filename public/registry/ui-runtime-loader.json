@@ -1,0 +1,12 @@
+{
+  "name": "ui-runtime-loader",
+  "type": "utility",
+  "description": "Loads the shared UI runtime once per page",
+  "files": [
+    {
+      "name": "runtime/loader.ts",
+      "path": "utils/runtime/loader.ts",
+      "content": "declare global {\n  interface Window {\n    __bearnieUiBootPromise?: Promise<void>;\n  }\n}\n\nexport function ensureUiBootLoaded() {\n  if (typeof window === \"undefined\") return;\n\n  if (!window.__bearnieUiBootPromise) {\n    window.__bearnieUiBootPromise = import(\"@/utils/runtime/ui-boot\").then(\n      ({ bootUiRuntime }) => {\n        bootUiRuntime();\n      }\n    );\n  }\n}\n"
+    }
+  ]
+}

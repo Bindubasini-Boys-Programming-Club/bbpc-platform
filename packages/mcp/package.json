@@ -1,0 +1,46 @@
+{
+  "name": "@bearnie/mcp",
+  "version": "0.1.1",
+  "description": "MCP server for Bearnie UI components - enables AI assistants to add components to your project",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "bearnie-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "dev": "tsup src/index.ts --format esm --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "node-fetch": "^3.3.2",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.14.9",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Michael Andreuzza",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michael-andreuzza/bearnie.git",
+    "directory": "packages/mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bearnie",
+    "astro",
+    "ui-components",
+    "ai"
+  ]
+}

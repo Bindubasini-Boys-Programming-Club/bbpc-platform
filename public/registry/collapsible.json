@@ -1,0 +1,25 @@
+{
+  "name": "collapsible",
+  "description": "A component that can expand and collapse content",
+  "category": "disclosure",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "Collapsible.astro",
+      "path": "collapsible/Collapsible.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'div'> {\n  defaultOpen?: boolean;\n}\n\nconst {\n  defaultOpen = false,\n  class: className,\n  ...props\n} = Astro.props;\n\nconst classes = cn('w-full', className);\n---\n\n<div class={classes} data-collapsible data-state={defaultOpen ? 'open' : 'closed'} {...props}>\n  <slot />\n</div>\n\n<script>\n  function initCollapsibles() {\n    document.querySelectorAll('[data-collapsible]').forEach((collapsible) => {\n      if (collapsible.hasAttribute('data-initialized')) return;\n      collapsible.setAttribute('data-initialized', 'true');\n\n      const trigger = collapsible.querySelector('[data-collapsible-trigger]');\n      const content = collapsible.querySelector('[data-collapsible-content]') as HTMLElement;\n\n      if (!trigger || !content) return;\n\n      const isOpen = collapsible.getAttribute('data-state') === 'open';\n      content.hidden = !isOpen;\n      trigger.setAttribute('aria-expanded', String(isOpen));\n\n      trigger.addEventListener('click', () => {\n        const currentState = collapsible.getAttribute('data-state');\n        const newState = currentState === 'open' ? 'closed' : 'open';\n\n        collapsible.setAttribute('data-state', newState);\n        trigger.setAttribute('data-state', newState);\n        trigger.setAttribute('aria-expanded', String(newState === 'open'));\n        content.hidden = newState === 'closed';\n      });\n    });\n  }\n\n  initCollapsibles();\n  document.addEventListener('astro:page-load', initCollapsibles);\n</script>\n"
+    },
+    {
+      "name": "CollapsibleContent.astro",
+      "path": "collapsible/CollapsibleContent.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'div'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('overflow-hidden', className);\n---\n\n<div class={classes} data-collapsible-content hidden {...props}>\n  <slot />\n</div>\n"
+    },
+    {
+      "name": "CollapsibleTrigger.astro",
+      "path": "collapsible/CollapsibleTrigger.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'span'> {}\n\nconst { class: className, ...props } = Astro.props;\n---\n\n<span\n  class={cn('cursor-pointer', className)}\n  data-collapsible-trigger\n  role=\"button\"\n  tabindex=\"0\"\n  aria-expanded=\"false\"\n  {...props}\n>\n  <slot />\n</span>\n\n<script>\n  function initCollapsibleTriggers() {\n    document.querySelectorAll('[data-collapsible-trigger]').forEach((trigger) => {\n      if (trigger.hasAttribute('data-trigger-initialized')) return;\n      trigger.setAttribute('data-trigger-initialized', 'true');\n\n      // Handle keyboard activation\n      trigger.addEventListener('keydown', (e) => {\n        const event = e as KeyboardEvent;\n        if (event.key === 'Enter' || event.key === ' ') {\n          event.preventDefault();\n          trigger.dispatchEvent(new MouseEvent('click', { bubbles: true }));\n        }\n      });\n    });\n  }\n\n  initCollapsibleTriggers();\n  document.addEventListener('astro:page-load', initCollapsibleTriggers);\n</script>\n"
+    }
+  ]
+}

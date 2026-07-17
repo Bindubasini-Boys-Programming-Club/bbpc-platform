@@ -1,0 +1,309 @@
+---
+title: Sheet
+description: A slide-out panel from the edge of the screen.
+tagline: Slide-out panel overlay
+category: disclosure
+status: stable
+order: 22
+---
+
+import ComponentPreview from "@/components/docs/ComponentPreview.astro";
+import CodeBlock from "@/components/docs/CodeBlock.astro";
+import Prose from "@/components/docs/Prose.astro";
+import Sheet from "@/components/ui/sheet/Sheet.astro";
+import SheetTrigger from "@/components/ui/sheet/SheetTrigger.astro";
+import SheetOverlay from "@/components/ui/sheet/SheetOverlay.astro";
+import SheetContent from "@/components/ui/sheet/SheetContent.astro";
+import SheetHeader from "@/components/ui/sheet/SheetHeader.astro";
+import SheetTitle from "@/components/ui/sheet/SheetTitle.astro";
+import SheetDescription from "@/components/ui/sheet/SheetDescription.astro";
+import SheetFooter from "@/components/ui/sheet/SheetFooter.astro";
+import SheetClose from "@/components/ui/sheet/SheetClose.astro";
+import Button from "@/components/ui/button/Button.astro";
+import Input from "@/components/ui/input/Input.astro";
+import Label from "@/components/ui/label/Label.astro";
+
+<ComponentPreview>
+  <Fragment slot="code">
+```html
+<Sheet>
+  <SheetTrigger>
+    <Button variant="outline">Open quick panel</Button>
+  </SheetTrigger>
+  <SheetOverlay />
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Project quick actions</SheetTitle>
+      <SheetDescription>
+        Review key details and trigger common actions in one place.
+      </SheetDescription>
+    </SheetHeader>
+    <div class="space-y-4 py-4">
+      <div class="space-y-2">
+        <Label for="project-name">Project name</Label>
+        <Input id="project-name" value="Website redesign" />
+      </div>
+      <div class="space-y-2">
+        <Label for="project-owner">Owner</Label>
+        <Input id="project-owner" value="Product Team" />
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <Button variant="outline">Share link</Button>
+        <Button variant="outline">Duplicate</Button>
+      </div>
+    </div>
+    <SheetFooter>
+      <SheetClose>
+        <Button type="submit">Done</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+  </Fragment>
+  <Sheet>
+    <SheetTrigger>
+      <Button variant="outline">Open quick panel</Button>
+    </SheetTrigger>
+    <SheetOverlay />
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Project quick actions</SheetTitle>
+        <SheetDescription>
+          Review key details and trigger common actions in one place.
+        </SheetDescription>
+      </SheetHeader>
+      <div class="space-y-4 py-4">
+        <div class="space-y-2">
+          <Label for="project-name">Project name</Label>
+          <Input id="project-name" value="Website redesign" />
+        </div>
+        <div class="space-y-2">
+          <Label for="project-owner">Owner</Label>
+          <Input id="project-owner" value="Product Team" />
+        </div>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <Button variant="outline">Share link</Button>
+          <Button variant="outline">Duplicate</Button>
+        </div>
+      </div>
+      <SheetFooter>
+        <SheetClose>
+          <Button type="submit">Done</Button>
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</ComponentPreview>
+
+<div class="space-y-4">
+<Prose>
+### Installation
+</Prose>
+
+<ComponentPreview component="sheet" />
+</div>
+
+<div class="space-y-4">
+<Prose>
+### Usage
+
+```ts
+import {
+  Sheet,
+  SheetTrigger,
+  SheetOverlay,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+  SheetClose
+} from "@/components/bearnie/sheet"
+```
+```html
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetOverlay />
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Sheet Title</SheetTitle>
+      <SheetDescription>Sheet description goes here.</SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+</Prose>
+</div>
+
+<div class="space-y-8">
+<Prose>
+### Examples
+</Prose>
+
+<div class="space-y-4">
+<Prose>
+#### Side positions
+</Prose>
+
+<ComponentPreview>
+  <Fragment slot="code">
+```html
+<div class="flex flex-wrap gap-2">
+  <Sheet>
+    <SheetTrigger><Button variant="outline">Top</Button></SheetTrigger>
+    <SheetOverlay />
+    <SheetContent side="top">
+      <SheetHeader>
+        <SheetTitle>Top Sheet</SheetTitle>
+        <SheetDescription>This sheet slides in from the top.</SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger><Button variant="outline">Right</Button></SheetTrigger>
+    <SheetOverlay />
+    <SheetContent side="right">
+      <SheetHeader>
+        <SheetTitle>Right Sheet</SheetTitle>
+        <SheetDescription>This sheet slides in from the right.</SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger><Button variant="outline">Bottom</Button></SheetTrigger>
+    <SheetOverlay />
+    <SheetContent side="bottom">
+      <SheetHeader>
+        <SheetTitle>Bottom Sheet</SheetTitle>
+        <SheetDescription>This sheet slides in from the bottom.</SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+  <Sheet>
+    <SheetTrigger><Button variant="outline">Left</Button></SheetTrigger>
+    <SheetOverlay />
+    <SheetContent side="left">
+      <SheetHeader>
+        <SheetTitle>Left Sheet</SheetTitle>
+        <SheetDescription>This sheet slides in from the left.</SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+</div>
+```
+  </Fragment>
+  <div class="flex flex-wrap gap-2">
+    <Sheet>
+      <SheetTrigger><Button variant="outline">Top</Button></SheetTrigger>
+      <SheetOverlay />
+      <SheetContent side="top">
+        <SheetHeader>
+          <SheetTitle>Top Sheet</SheetTitle>
+          <SheetDescription>This sheet slides in from the top.</SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+    <Sheet>
+      <SheetTrigger><Button variant="outline">Right</Button></SheetTrigger>
+      <SheetOverlay />
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle>Right Sheet</SheetTitle>
+          <SheetDescription>This sheet slides in from the right.</SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+    <Sheet>
+      <SheetTrigger><Button variant="outline">Bottom</Button></SheetTrigger>
+      <SheetOverlay />
+      <SheetContent side="bottom">
+        <SheetHeader>
+          <SheetTitle>Bottom Sheet</SheetTitle>
+          <SheetDescription>This sheet slides in from the bottom.</SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+    <Sheet>
+      <SheetTrigger><Button variant="outline">Left</Button></SheetTrigger>
+      <SheetOverlay />
+      <SheetContent side="left">
+        <SheetHeader>
+          <SheetTitle>Left Sheet</SheetTitle>
+          <SheetDescription>This sheet slides in from the left.</SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  </div>
+</ComponentPreview>
+</div>
+
+<div class="space-y-4">
+<Prose>
+#### Without close button
+</Prose>
+
+<ComponentPreview>
+  <Fragment slot="code">
+```html
+<Sheet>
+  <SheetTrigger>
+    <Button variant="outline">Open Sheet</Button>
+  </SheetTrigger>
+  <SheetOverlay />
+  <SheetContent showCloseButton={false}>
+    <SheetHeader>
+      <SheetTitle>No close button</SheetTitle>
+      <SheetDescription>
+        Click outside or press Escape to close this sheet.
+      </SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+  </Fragment>
+  <Sheet>
+    <SheetTrigger>
+      <Button variant="outline">Open Sheet</Button>
+    </SheetTrigger>
+    <SheetOverlay />
+    <SheetContent showCloseButton={false}>
+      <SheetHeader>
+        <SheetTitle>No close button</SheetTitle>
+        <SheetDescription>
+          Click outside or press Escape to close this sheet.
+        </SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+</ComponentPreview>
+</div>
+
+</div>
+
+<Prose>
+### Anatomy
+
+- `Sheet` - Root container that manages state
+- `SheetTrigger` - Button that opens the sheet
+- `SheetOverlay` - Background overlay
+- `SheetContent` - The sliding panel
+- `SheetHeader` - Header container
+- `SheetTitle` - Title text
+- `SheetDescription` - Description text
+- `SheetFooter` - Footer container
+- `SheetClose` - Button that closes the sheet
+</Prose>
+
+<Prose>
+### Props
+
+#### SheetContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| side | "top" \| "right" \| "bottom" \| "left" | "right" | Edge of screen to slide from |
+| showCloseButton | boolean | true | Show the X close button |
+| class | string | - | Additional CSS classes |
+</Prose>

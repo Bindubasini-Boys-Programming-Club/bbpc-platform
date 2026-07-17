@@ -1,0 +1,50 @@
+{
+  "name": "table",
+  "description": "A responsive table for displaying tabular data",
+  "category": "display",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "Table.astro",
+      "path": "table/Table.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'table'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('w-full caption-bottom text-sm', className);\n---\n\n<div class=\"relative w-full overflow-auto\">\n  <table class={classes} {...props}>\n    <slot />\n  </table>\n</div>\n"
+    },
+    {
+      "name": "TableBody.astro",
+      "path": "table/TableBody.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'tbody'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('[&_tr:last-child]:border-0', className);\n---\n\n<tbody class={classes} {...props}>\n  <slot />\n</tbody>\n"
+    },
+    {
+      "name": "TableCaption.astro",
+      "path": "table/TableCaption.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'caption'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('mt-4 text-sm text-muted-foreground', className);\n---\n\n<caption class={classes} {...props}>\n  <slot />\n</caption>\n"
+    },
+    {
+      "name": "TableCell.astro",
+      "path": "table/TableCell.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'td'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className);\n---\n\n<td class={classes} {...props}>\n  <slot />\n</td>\n"
+    },
+    {
+      "name": "TableFooter.astro",
+      "path": "table/TableFooter.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'tfoot'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', className);\n---\n\n<tfoot class={classes} {...props}>\n  <slot />\n</tfoot>\n"
+    },
+    {
+      "name": "TableHead.astro",
+      "path": "table/TableHead.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'th'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',\n  className\n);\n---\n\n<th class={classes} {...props}>\n  <slot />\n</th>\n"
+    },
+    {
+      "name": "TableHeader.astro",
+      "path": "table/TableHeader.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'thead'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn('[&_tr]:border-b', className);\n---\n\n<thead class={classes} {...props}>\n  <slot />\n</thead>\n"
+    },
+    {
+      "name": "TableRow.astro",
+      "path": "table/TableRow.astro",
+      "content": "---\nimport { cn } from '@/utils/cn';\nimport type { HTMLAttributes } from 'astro/types';\n\nexport interface Props extends HTMLAttributes<'tr'> {}\n\nconst { class: className, ...props } = Astro.props;\n\nconst classes = cn(\n  'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',\n  className\n);\n---\n\n<tr class={classes} {...props}>\n  <slot />\n</tr>\n"
+    }
+  ]
+}
