@@ -1,8 +1,10 @@
-import { createSqliteAuthRepository } from "@/server/auth/repository-sqlite";
+import { createMockAuthRepository } from "@/server/auth/repository-mock";
 import { createSessionService } from "@/server/auth/session";
 
+
 export async function POST({ request }: { request: Request }) {
-  const repo = createSqliteAuthRepository();
+  const repo = createMockAuthRepository();
+
   const sessions = createSessionService(repo);
 
   const headers = new Headers();

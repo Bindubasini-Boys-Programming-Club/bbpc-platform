@@ -7,7 +7,17 @@ function toRole(role: string): Role {
   return "member";
 }
 
+const ENABLE_SQLITE =
+  process.env.BEARNIE_DB_SQLITE === "1" ||
+  process.env.BEARNIE_DB_SQLITE === "true";
+
 export function createSqliteAuthRepository(): AuthRepository {
+  if (!ENABLE_SQLITE) {
+    throw new Error(
+      "SQLite auth repository is disabled. Set BEARNIE_DB_SQLITE=1 to enable it.",
+    );
+  }
+
   return {
     async createUser(args) {
       const now = new Date().toISOString();

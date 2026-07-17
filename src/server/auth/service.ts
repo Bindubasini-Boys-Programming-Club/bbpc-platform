@@ -1,5 +1,4 @@
 import type { AuthRepository } from "./repository";
-import { migrate } from "../db/migrations";
 import {
   generateSessionId,
   hashPassword,
@@ -7,6 +6,7 @@ import {
   newId,
   verifyPassword,
 } from "./security";
+
 
 export interface RegisterInput {
   email: string;
@@ -24,7 +24,9 @@ export interface LoginInput {
 export function createAuthService(repo: AuthRepository) {
   return {
     async init() {
-      await migrate();
+      // Temporarily disabled DB migration for Vercel build compatibility.
+      // Real DB setup will be restored later (Supabase/Postgres).
+      return;
     },
 
     async register(input: RegisterInput) {

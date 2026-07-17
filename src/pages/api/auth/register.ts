@@ -1,5 +1,6 @@
-import { createSqliteAuthRepository } from "@/server/auth/repository-sqlite";
+import { createMockAuthRepository } from "@/server/auth/repository-mock";
 import { createAuthService } from "@/server/auth/service";
+
 
 export async function POST({ request }: { request: Request }) {
   const form = await request.formData();
@@ -7,7 +8,8 @@ export async function POST({ request }: { request: Request }) {
   const fullName = form.get("fullname") ? String(form.get("fullname")) : undefined;
   const password = String(form.get("password") || "");
 
-  const repo = createSqliteAuthRepository();
+  const repo = createMockAuthRepository();
+
   const auth = createAuthService(repo);
   await auth.init();
 
